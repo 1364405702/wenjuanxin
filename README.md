@@ -13,29 +13,9 @@
 
 # 快速开始
 
-安装插件并保持打开状态，打开网址：https://www.wjx.cn/jq/77295530.aspx
+安装插件并保持打开状态，打开网址：https://www.wjx.cn/jq/92660586.aspx
 
-# 动图演示
 
-插件将会驱使网页，在加载完成时自动填写答案，并滚动到提交按钮处，帮你点击它。提交完成后也会帮你自动刷新网页，以便快速进行下一轮作答
-
-![](https://github.com/superBoyJack/wenjuanxin/blob/master/img/start.gif)
-
-![](https://github.com/superBoyJack/wenjuanxin/blob/master/img/switchIP.gif)
-
-# 破解验证
-
-问卷星对IP有提交次数限制，在一台机器上提交达到一定次数时会出现智能验证,所以可以配合Chrome插件:**Modify Headers** 破解这一限制
-
-下载地址：https://chrome.google.com/webstore/detail/modify-headers-for-google/innpjfdalfhpcoinfnehdnbkglpmogdi
-
-或者使用打包版**crx**文件（备用地址）：https://zaincheung.lanzous.com/ickksuf
-
-查询IP地址段：http://ip.bczs.net/countrylist
-
-你也可以使用项目里的 modifyheaders.json 文件,并将它导入到你的**Modify Headers**,这样你就能快速开始免去IP限制
-
-下载地址: https://cdn.jsdelivr.net/gh/superBoyJack/wenjuanxin/modifyheaders.json
 
 # 配置
 
