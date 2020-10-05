@@ -27,36 +27,12 @@
     // 配置填空的答案项,如果不配置,默认填无
     var config = [
         {
-            id: 3,//第三题:你每个月的生活费用是多少元？
+            id: 1,//第三题:你每个月的生活费用是多少元？
             answer: [800,900,1000,1100,1500,2000]//随机选出一个答案
         },
         {
-            id: 4,//第四题:你的生活费用来源是？
+            id: 2,//第四题:你的生活费用来源是？
             answer: ["父母给","自己兼职","傍富婆"]
-        },
-        {
-            id: 6,//第六题:你曾经或现在的恋爱时长是多长时间？（X日/X个月/X年）
-            answer: ["三天","一个月","两个月","五个月","十个月","一年","两年","三年","五年","十年"]
-        },
-        {
-            id: 7,//第七题:恋爱时的每月花费是多少元？
-            answer: [100,200,300,400,500,600,700,800,900,1000,1500,2000]
-        },
-        {
-            id: 16,//第七题:根据第15题，选择该地区的原因是？
-            answer: ["个人喜好","没有原因"]
-        },
-        {
-            id: 17,//第七题:你对另一半的身高要求具体是多少m？（数值）
-            answer: [1.6,1.65,1.7,1.75,1.8,1.85,1.9]
-        },
-        {
-            id: 18,//第七题:你能接受另一半的恋爱次数最多是多少次？（数值）
-            answer: [0,1,2,3,4,5,6,7,8,9,10]
-        },
-        {
-            id: 19,//第七题:你认为大学期间情侣每天在一起多长时间合适？（X个小时）
-            answer: [0.5,1,1.5,2,2.5,3,3.5,4]
         }
     ];
 
@@ -65,7 +41,7 @@
     //答题结束，则打开新的问卷
     (function openNew() {
         var currentURL = window.location.href;
-        var pat = /complete\.aspx\?q=(\d+)/;
+        var pat = /complete\.aspx\?activityid=(\d+)/;
         var obj = pat.exec(currentURL);
         if (obj) {
             window.location.href = "https://www.wjx.cn/jq/" + obj[1] + ".aspx";
@@ -157,15 +133,9 @@
             }
             var times = randint(3, arr.length - 1); // 多选题选择数量，一般不小于3
             var indexAry = getRandomArrayElements(arr, times);//准备选中的项
-            var no;//禁止项
-            for(var j = 0; j < indexAry.length; j++){
-                if(indexAry[j].querySelector(".underline") != null){//去除多选框里需要填空的项
-                    console.log(indexAry[j]);
-                    no = j;
-                }
-            }
+
             for (i = 0; i < indexAry.length; i++) {
-                if (indexAry[i].querySelectorAll("input")[0].checked == false && (i != no)) {
+                if (indexAry[i].querySelectorAll("input")[0].checked == false && (indexAry[i].querySelector(".underline") == null)) {
                     indexAry[i].click();
                 }
             }
@@ -298,7 +268,6 @@
         }
     }
 
-
     /**
      * @name 智慧树题目类型判断，并随机选择
      */
@@ -318,7 +287,7 @@
                     rc.multiChoose(q[i]);
                 }
 
-                //表格
+            //表格
             } else if (q[i].querySelectorAll("table")[0]) {
                 if (q[i].querySelectorAll("input")[0]) { // 表格题中包含有单选， 多选
                     input = q[i].querySelectorAll("input");
@@ -355,6 +324,7 @@
                 console.log("Select", i);
                 rc.dropdownSelect(q[i]);
             }
+            //Sleep(2000)
         }
         try{
             var textArea = document.getElementsByTagName('textarea');
@@ -378,12 +348,39 @@ window.alert = function(str) {
    location.reload();
    return ;
 }
+
+//拖动滑动验证码
+function Test(){
+    var event = document.createEvent('MouseEvents');
+    event.initEvent('mousedown', true, false);
+    document.querySelector("#nc_1_n1z").dispatchEvent(event);
+    event = document.createEvent('MouseEvents');
+    event.initEvent('mousemove', true, false);
+    Object.defineProperty(event,'clientX',{get(){return 260;}})
+    document.querySelector("#nc_1_n1z").dispatchEvent(event);
+}
+
+function Sleep(time) {
+    var startTime = new Date().getTime() + parseInt(time, 10);
+    while(new Date().getTime() < startTime) {}
+}
+
 setTimeout(function(){
     // 延时两秒防止验证
     document.getElementById("submit_button").click();
+    if(!document.getElementById("captcha").getAttribute('style')){
+        document.getElementById("SM_TXT_1").click();
+        Sleep(5000);
+        console.log("click captcha")
+    }
+},2000)
+
+setTimeout(function(){
+    console.log(document.getElementById("nc_1_n1z"))
+    if(document.getElementById("nc_1_n1z") != null){
+        console.log(1)
+        Test()
+    }
     console.log("答题成功!");
 },2000);
-setTimeout(function(){
-    // 5秒自动刷新,解决验证问题
-    location.reload();
-},5000);
+
