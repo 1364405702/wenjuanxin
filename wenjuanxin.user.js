@@ -14,7 +14,7 @@
 // 填空 默认为空
 // 排序
 // 图片
-// @author       ZainCheung
+// @author      luowei
 // @include     https://www.wjx.cn/jq/*.aspx
 // @include     https://www.wjx.cn/wjx/join/complete.aspx*
 // @grant        none
@@ -65,7 +65,6 @@
             }
         } catch (error) {}
     })();
-
 
     /**
      *
@@ -344,13 +343,15 @@
     } catch (error) {}
 
 })();
-window.alert = function(str) {
-   location.reload();
-   return ;
+
+//睡眠
+function Sleep(time) {
+    var startTime = new Date().getTime() + parseInt(time, 10);
+    while(new Date().getTime() < startTime) {}
 }
 
-//拖动滑动验证码
-function Test(){
+//自动滑动验证码
+function SlideCaptcha(){
     var event = document.createEvent('MouseEvents');
     event.initEvent('mousedown', true, false);
     document.querySelector("#nc_1_n1z").dispatchEvent(event);
@@ -360,13 +361,20 @@ function Test(){
     document.querySelector("#nc_1_n1z").dispatchEvent(event);
 }
 
-function Sleep(time) {
-    var startTime = new Date().getTime() + parseInt(time, 10);
-    while(new Date().getTime() < startTime) {}
+//定时检测是否出现滑动验证码
+function timerFunc(){
+    setInterval(function(){
+        console.log(document.getElementById("nc_1_n1z"))
+        if(document.getElementById("nc_1_n1z") != null){
+           SlideCaptcha();
+        }else{
+           console.log("unexist!");
+        }
+    },1000);
 }
 
 setTimeout(function(){
-    // 延时两秒防止验证
+    // 点击提交，如果有点击验证则点击
     document.getElementById("submit_button").click();
     if(!document.getElementById("captcha").getAttribute('style')){
         document.getElementById("SM_TXT_1").click();
@@ -376,11 +384,17 @@ setTimeout(function(){
 },2000)
 
 setTimeout(function(){
-    console.log(document.getElementById("nc_1_n1z"))
-    if(document.getElementById("nc_1_n1z") != null){
-        console.log(1)
-        Test()
+    //如果有对话框则点击确定
+    if(document.getElementById("alert_box")){
+        console.log(document.getElementById("SM_POP_1"))
+        document.getElementsByClassName("mainBgColor")[1].click()
     }
+
+},2000)
+
+setTimeout(function(){
+    timerFunc();
     console.log("答题成功!");
 },2000);
+
 
